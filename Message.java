@@ -13,9 +13,9 @@ public class Message {
 		
 		socket.connect("tcp://ec2-50-19-179-117.compute-1.amazonaws.com:5557");
 		
-		String requestString = "Hello" + " ";
+		String requestString = "Hello";
         byte[] request = requestString.getBytes();
-        request[request.length-1]=0; //Sets the last byte to 0
+        //request[request.length-1]=0; //Sets the last byte to 0
         // Send the message
         System.out.println("Sending request " + "É");
         socket.send(request, 0);
