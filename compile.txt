@@ -1,0 +1,5 @@
+javac -cp /Users/mikmister02/jzmq/src/zmq.jar: drmario.java
+
+
+java -Djava.library.path=/usr/local/lib -cp /Users/mikmister02/jzmq/src/zmq.jar: drmario
+
