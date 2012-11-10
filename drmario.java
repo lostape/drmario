@@ -16,17 +16,14 @@ public class drmario {
 		Scanner input = new Scanner(System.in);
 		String gtkn = input.nextLine();
 		
-		System.out.println("Enter command server...");
+		System.out.println("Enter server...");
 		input = new Scanner(System.in);
-		String commserver = input.nextLine();
+		String server = input.nextLine();
 		
-		System.out.println("Enter state server...");
-		input = new Scanner(System.in);
-		String stateserver = input.nextLine();
 		
-		MatchState ms = new MatchState(stateserver);
+		MatchState ms = new MatchState(server);
 		new Thread(ms).start();
-		GameMove gm = new GameMove(command, gtkn, commserver);
+		GameMove gm = new GameMove(command, gtkn, server, ms);
 		new Thread(gm).start();
 
 		

@@ -8,11 +8,13 @@ public class GameMove implements Runnable {
 	String client;
 	String server;
 	String gametoken;
+	MatchState state;
 	
-	public GameMove(ZMQ.Socket c, String gtkn, String serv){
+	public GameMove(ZMQ.Socket c, String gtkn, String serv, MatchState ms){
 		command = c;
 		gametoken = gtkn;
 		server = serv;
+		state = ms;
 		
 	}
 	
@@ -33,22 +35,27 @@ public class GameMove implements Runnable {
 		
 		JSONObject reply = new JSONObject(response);
 		
-		String commtype = reply.getString("comm_type");
-		if(commtype == "ErrorResp"){
+		System.out.println(reply.toString());
+		
+		String commtype = reply.getString("comm_type");		
+		if(commtype.equals("ErrorResp")){
 			System.out.println(reply.getString("error"));
 			System.out.println(reply.getString("message"));
 			System.exit(1);
 		}
-		else if(commtype == "MatchConnectResp"){
-			if(reply.getString("resp") == "ok"){
+		else if(commtype.equals("MatchConnectResp")){
+			if(reply.getString("resp").equals("ok")){
 				client = reply.getString("client_token");
 			}
 		}		
 		
 	}
 	
+	
+	
 	public void move() throws JSONException{
 		JSONObject move = new JSONObject();
+		System.out.println(client);
 		move.put("comm_type", "GameMove");
 		move.put("client_token", client);
 		move.put("move", "left");

@@ -173,16 +173,16 @@ public class MatchState implements Runnable {
 				JSONObject state = new JSONObject(new String(statesocket.recv(0)));
 				
 				String commtype = state.getString("comm_type");
-				if(commtype == "Gameboard[client]State"){
+				if(commtype.equals("GameboardState")){
 					parseboardState(state);
 				}
-				else if(commtype == "GamePieceState"){
+				else if(commtype.equals("GamePieceState")){
 					parsePieceState(state);
 				}
-				else if(commtype == "GameEnd"){
+				else if(commtype.equals("GameEnd")){
 					
 				}
-				else if(commtype == "MatchEnd"){
+				else if(commtype.equals("MatchEnd")){
 					System.exit(1);
 				}		
 				
