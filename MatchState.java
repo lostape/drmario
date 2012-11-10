@@ -6,20 +6,27 @@ public class MatchState implements Runnable {
 	String stateserver;
 	ZMQ.Socket statesocket;
 	String gamename;
+	String match;
 	int seq;
 	double time;
 	int[][] board;
 	Piece current1;
-	Piece current2;
 	String[] queue;
+	boolean binfo = false;
+	boolean pinfo = false;
 	
 	
 	
-	public MatchState(String server){
+	public MatchState(String server, String mtkn){
 		stateserver = server;
+		match = mtkn;
 		statesocket = ZMQ.context(1).socket(ZMQ.SUB);
 		statesocket.connect("tcp://" + stateserver + ":5556");
+		statesocket.subscribe(match.getBytes());
 		board = new int[2][200];
+		current1 = new Piece();
+		queue = new String[5];
+		
 		
 	}
 	
@@ -29,10 +36,8 @@ public class MatchState implements Runnable {
 		time = b.getDouble("timestamp");
 
 		JSONObject states = b.getJSONObject("states");		
-		JSONObject client1 = states.getJSONObject("client1");
+		JSONObject client1 = states.getJSONObject("Team 139");
 		updateboard(client1.getString("board_state"), 0);
-		JSONObject client2 = states.getJSONObject("client2");
-		updateboard(client2.getString("board_state"),1);
 		
 		
 	}
@@ -42,19 +47,12 @@ public class MatchState implements Runnable {
 		time = p.getDouble("timestamp");
 		
 		JSONObject states = p.getJSONObject("states");
-		JSONObject client1 = states.getJSONObject("client1");
+		JSONObject client1 = states.getJSONObject("Team 139");
 		current1.setOrient(client1.getInt("orient"));
 		current1.setType(client1.getString("piece"));
 		current1.setNumber(client1.getInt("number"));
 		current1.setRow(client1.getInt("row"));
 		current1.setCol(client1.getInt("col"));
-		
-		JSONObject client2 = states.getJSONObject("client2");
-		current2.setOrient(client2.getInt("orient"));
-		current2.setType(client2.getString("piece"));
-		current2.setNumber(client2.getInt("number"));
-		current2.setRow(client2.getInt("row"));
-		current2.setCol(client2.getInt("col"));
 		
 		JSONArray q = p.getJSONArray("queue");
 		for(int i = 0; i < q.length(); i++){
@@ -170,14 +168,22 @@ public class MatchState implements Runnable {
 	public void run() {
 		while(true){
 			try {
-				JSONObject state = new JSONObject(new String(statesocket.recv(0)));
+				String filter = new String(statesocket.recv(0));
+				String json = new String(statesocket.recv(0));
+				//System.out.println(json);
+				
+				JSONObject state = new JSONObject(json);
 				
 				String commtype = state.getString("comm_type");
+
 				if(commtype.equals("GameboardState")){
 					parseboardState(state);
+					binfo = true;
+					System.out.println(binfo);
 				}
 				else if(commtype.equals("GamePieceState")){
 					parsePieceState(state);
+					pinfo = true;
 				}
 				else if(commtype.equals("GameEnd")){
 					
@@ -185,7 +191,6 @@ public class MatchState implements Runnable {
 				else if(commtype.equals("MatchEnd")){
 					System.exit(1);
 				}		
-				
 				
 				
 				

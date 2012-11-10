@@ -12,7 +12,7 @@ public class drmario {
 		ZMQ.Socket command = context.socket(ZMQ.REQ);
 		ZMQ.Socket state = context.socket(ZMQ.SUB);
 		
-		System.out.println("Enter game token...");
+		System.out.println("Enter match token...");
 		Scanner input = new Scanner(System.in);
 		String gtkn = input.nextLine();
 		
@@ -21,7 +21,7 @@ public class drmario {
 		String server = input.nextLine();
 		
 		
-		MatchState ms = new MatchState(server);
+		MatchState ms = new MatchState(server, gtkn);
 		new Thread(ms).start();
 		GameMove gm = new GameMove(command, gtkn, server, ms);
 		new Thread(gm).start();
