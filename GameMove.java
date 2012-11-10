@@ -10,6 +10,8 @@ public class GameMove implements Runnable {
 	String gametoken;
 	MatchState state;
 	int nextcol;
+	int nextrot;
+	boolean findmove = true;
 	
 	public GameMove(ZMQ.Socket c, String gtkn, String serv, MatchState ms){
 		command = c;
@@ -52,44 +54,219 @@ public class GameMove implements Runnable {
 		
 	}
 	
+	public boolean checkCell(int cell, int value){
+		if(state.board[cell] != value){
+			return false;
+		}
+		for(int i = cell % 10; i < cell; i += 10){
+			if(state.board[i] == 1){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void decideMove(){
 		
 		if(state.current1.type != null){
-			//switch(state.current1.type.charAt(0)){
-			//case 'O':
+			findmove = false;
+			switch(state.current1.type.charAt(0)){
+			case 'O':
 				for(int i = 190; i >= 0; i -= 10){
-					for(int j = i; j < (i + 10); j++){
-						if(state.board[0][j] == 0){
-							nextcol = j;
+					for(int j = i; j < (i + 9); j++){
+						if(checkCell(j, 0) && checkCell(j+1, 0)){
+							nextcol = (j+1) % 10;
+							nextrot = 0;
 							return;
 						}
 					}
 				}
-			//}
+				break;
+			case 'I':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 7); j++){
+						if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0) && checkCell(j+3,0)){
+							nextcol = ((j+2) % 10);
+							nextrot = 0;
+							return;
+						}
+						else if(checkCell(j,0)){
+							nextcol = (j % 10);
+							nextrot = 1;
+							return;
+						}
+						else if(checkCell(j+1,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 1;
+							return;
+						}
+						else if(checkCell(j+2,0)){
+							nextcol = ((j+2) % 10);
+							nextrot = 1;
+							return;
+						}
+						else if(checkCell(j+3,0)){
+							nextcol = ((j+3) % 10);
+							nextrot = 1;
+							return;
+						}
+					}
+				}
+				break;
+			case 'S':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,1)){
+							nextcol = ((j+1) % 10);
+							nextrot = 0;
+							return;
+						}
+						else if(checkCell(j,1) && checkCell(j+1,0)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							return;
+						}
+					}
+				}
+				break;
+			case 'Z':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 0;
+							return;
+						}
+						else if(checkCell(j,0) && checkCell(j+1,1)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							return;
+						}
+					}
+				}
+				break;
+			case 'L':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,0) && checkCell(j+1,1) && checkCell(j+2,1)){
+							nextcol = ((j+1) % 10);
+							nextrot = 0;
+							return;
+						}
+						//does not reach last cell in row
+						else if(checkCell(j,0) && checkCell(j+1,0)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							return;
+						}
+						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 2;
+							return;
+						}
+						else if(checkCell(j-10,1) && checkCell(j+1,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 3;
+							return;
+						}
+					}
+				}
+				break;
+			case 'J':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 0;
+							return;
+						}
+						//does not reach last cell in row
+						else if(checkCell(j,0) && checkCell(j+1,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 3;
+							return;
+						}
+						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 2;
+							return;
+						}
+						else if(checkCell(j+1-10,1) && checkCell(j,0)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							return;
+						}
+					}
+				}
+				break;
+			case 'T':
+				for(int i = 190; i >= 0; i -= 10){
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,1)){
+							nextcol = ((j+1) % 10);
+							nextrot = 0;
+							return;
+						}
+						else if(checkCell(j,0) && checkCell(j,1)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							return;
+						}
+						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 2;
+							return;
+						}
+						else if(checkCell(j,1) && checkCell(j,0)){
+							nextcol = ((j+1) % 10);
+							nextrot = 3;
+							return;
+						}
+					}
+				}
+				break;
+			default:
+				nextcol = 8;
+				return;
+			}
 		}
 	}
 	
 	public void move() throws JSONException{
-				
-		JSONObject m = new JSONObject();
-		m.put("comm_type", "GameMove");
-		m.put("client_token", client);
-
-		decideMove();
-
-		if(state.current1.col < nextcol){
-			m.put("move", "right");				
-		}
-		else if(state.current1.col > nextcol){
-			m.put("move", "left");
-		}
-		else if(state.current1.col == nextcol){
-			m.put("move", "drop");
-		}
 		
-		System.out.println(m.toString());
-		command.send(m.toString().getBytes(), 0);
-		command.recv(0);
+		if(state.pinfo == true){
+			JSONObject m = new JSONObject();
+			m.put("comm_type", "GameMove");
+			m.put("client_token", client);
+	
+			//if(findmove == true){
+				decideMove();
+			//}
+			
+			if(state.current1.orient < nextrot){
+				m.put("move", "lrotate");
+			}
+			else if(state.current1.orient > nextrot){
+				m.put("move", "rrotate");
+			}
+			else{
+				if(state.current1.col < nextcol){
+					m.put("move", "right");				
+				}
+				else if(state.current1.col > nextcol){
+					m.put("move", "left");
+				}
+				else if(state.current1.col == nextcol && state.current1.orient == nextrot){
+					m.put("move", "drop");
+					findmove = true;
+				}
+			}
+			
+			System.out.println(m.toString());
+			command.send(m.toString().getBytes(), 0);
+			command.recv(0);
+			state.pinfo = false;
+		}
 	}
 		
 	@Override

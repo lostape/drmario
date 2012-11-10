@@ -9,7 +9,7 @@ public class MatchState implements Runnable {
 	String match;
 	int seq;
 	double time;
-	int[][] board;
+	int[] board;
 	Piece current1;
 	String[] queue;
 	boolean binfo = false;
@@ -23,7 +23,7 @@ public class MatchState implements Runnable {
 		statesocket = ZMQ.context(1).socket(ZMQ.SUB);
 		statesocket.connect("tcp://" + stateserver + ":5556");
 		statesocket.subscribe(match.getBytes());
-		board = new int[2][200];
+		board = new int[200];
 		current1 = new Piece();
 		queue = new String[5];
 		
@@ -37,7 +37,7 @@ public class MatchState implements Runnable {
 
 		JSONObject states = b.getJSONObject("states");		
 		JSONObject client1 = states.getJSONObject("Team 139");
-		updateboard(client1.getString("board_state"), 0);
+		updateboard(client1.getString("board_state"));
 		
 		
 	}
@@ -61,104 +61,104 @@ public class MatchState implements Runnable {
 		
 	}
 	
-	private void updateboard(String hex, int client){
+	private void updateboard(String hex){
 		for(int i = 0, j = 0; i < hex.length(); i++, j+=4){
 			switch(hex.charAt(i)){
 			case '0':
-				board[client][j] = 0;
-				board[client][j+1] = 0;
-				board[client][j+2] = 0;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 0;
+				board[j+2] = 0;
+				board[j+3] = 0;
 				break;
 			case '1':
-				board[client][j] = 1;
-				board[client][j+1] = 0;
-				board[client][j+2] = 0;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 0;
+				board[j+2] = 0;
+				board[j+3] = 1;
 				break;
 			case '2':
-				board[client][j] = 0;
-				board[client][j+1] = 1;
-				board[client][j+2] = 0;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 0;
+				board[j+2] = 1;
+				board[j+3] = 0;
 				break;
 			case '3':
-				board[client][j] = 1;
-				board[client][j+1] = 1;
-				board[client][j+2] = 0;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 0;
+				board[j+2] = 1;
+				board[j+3] = 1;
 				break;
 			case '4':
-				board[client][j] = 0;
-				board[client][j+1] = 0;
-				board[client][j+2] = 1;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 1;
+				board[j+2] = 0;
+				board[j+3] = 0;
 				break;
 			case '5':
-				board[client][j] = 1;
-				board[client][j+1] = 0;
-				board[client][j+2] = 1;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 1;
+				board[j+2] = 0;
+				board[j+3] = 1;
 				break;
 			case '6':
-				board[client][j] = 0;
-				board[client][j+1] = 1;
-				board[client][j+2] = 1;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 1;
+				board[j+2] = 1;
+				board[j+3] = 0;
 				break;
 			case '7':
-				board[client][j] = 1;
-				board[client][j+1] = 1;
-				board[client][j+2] = 1;
-				board[client][j+3] = 0;
+				board[j] = 0;
+				board[j+1] = 1;
+				board[j+2] = 1;
+				board[j+3] = 1;
 				break;
 			case '8':
-				board[client][j] = 0;
-				board[client][j+1] = 0;
-				board[client][j+2] = 0;
-				board[client][j+3] = 1;
+				board[j] = 1;
+				board[j+1] = 0;
+				board[j+2] = 0;
+				board[j+3] = 0;
 				break;
 			case '9':
-				board[client][j] = 1;
-				board[client][j+1] = 0;
-				board[client][j+2] = 0;
-				board[client][j+3] = 1;
+				board[j] = 1;
+				board[j+1] = 0;
+				board[j+2] = 0;
+				board[j+3] = 1;
 				break;
-			case 'A':
-				board[client][j] = 0;
-				board[client][j+1] = 1;
-				board[client][j+2] = 0;
-				board[client][j+3] = 1;
+			case 'a':
+				board[j] = 1;
+				board[j+1] = 0;
+				board[j+2] = 1;
+				board[j+3] = 0;
 				break;
-			case 'B':
-				board[client][j] = 1;
-				board[client][j+1] = 1;
-				board[client][j+2] = 0;
-				board[client][j+3] = 1;
+			case 'b':
+				board[j] = 1;
+				board[j+1] = 0;
+				board[j+2] = 1;
+				board[j+3] = 1;
 				break;
-			case 'C':
-				board[client][j] = 0;
-				board[client][j+1] = 0;
-				board[client][j+2] = 1;
-				board[client][j+3] = 1;
+			case 'c':
+				board[j] = 1;
+				board[j+1] = 1;
+				board[j+2] = 0;
+				board[j+3] = 0;
 				break;
-			case 'D':
-				board[client][j] = 1;
-				board[client][j+1] = 0;
-				board[client][j+2] = 1;
-				board[client][j+3] = 1;
+			case 'd':
+				board[j] = 1;
+				board[j+1] = 1;
+				board[j+2] = 0;
+				board[j+3] = 1;
 				break;
-			case 'E':
-				board[client][j] = 0;
-				board[client][j+1] = 1;
-				board[client][j+2] = 1;
-				board[client][j+3] = 1;
+			case 'e':
+				board[j] = 1;
+				board[j+1] = 1;
+				board[j+2] = 1;
+				board[j+3] = 0;
 				break;
-			case 'F':
-				board[client][j] = 1;
-				board[client][j+1] = 1;
-				board[client][j+2] = 1;
-				board[client][j+3] = 1;
+			case 'f':
+				board[j] = 1;
+				board[j+1] = 1;
+				board[j+2] = 1;
+				board[j+3] = 1;
 				break;	
 			}
 		}
@@ -176,14 +176,16 @@ public class MatchState implements Runnable {
 				
 				String commtype = state.getString("comm_type");
 
-				if(commtype.equals("GameboardState")){
+				if(commtype.equals("GameBoardState")){
 					parseboardState(state);
 					binfo = true;
-					System.out.println(binfo);
+					//System.out.println(binfo);
 				}
 				else if(commtype.equals("GamePieceState")){
 					parsePieceState(state);
 					pinfo = true;
+					System.out.println(pinfo);
+					System.out.println(state.toString());
 				}
 				else if(commtype.equals("GameEnd")){
 					
