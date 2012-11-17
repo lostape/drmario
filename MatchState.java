@@ -184,8 +184,8 @@ public class MatchState implements Runnable {
 				else if(commtype.equals("GamePieceState")){
 					parsePieceState(state);
 					pinfo = true;
-					System.out.println(pinfo);
-					System.out.println(state.toString());
+					//System.out.println(pinfo);
+					//System.out.println(state.toString());
 				}
 				else if(commtype.equals("GameEnd")){
 					
