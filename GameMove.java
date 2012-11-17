@@ -12,6 +12,7 @@ public class GameMove implements Runnable {
 	int nextcol;
 	int nextrot;
 	boolean findmove = true;
+	int piece;
 	
 	public GameMove(ZMQ.Socket c, String gtkn, String serv, MatchState ms){
 		command = c;
@@ -52,6 +53,13 @@ public class GameMove implements Runnable {
 			}
 		}		
 		
+	}
+	
+	public boolean newpiece(){
+		if(piece == state.current1.number)
+			return false;
+		else
+			return true;
 	}
 	
 	public boolean value(int[] f){
@@ -408,9 +416,10 @@ public class GameMove implements Runnable {
 			m.put("comm_type", "GameMove");
 			m.put("client_token", client);
 	
-			//if(findmove == true){
+			if(newpiece()){
 				decideMove();
-			//}
+				piece = state.current1.number;
+			}
 			
 			if(state.current1.orient < nextrot){
 				m.put("move", "lrotate");
