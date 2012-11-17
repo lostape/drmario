@@ -459,8 +459,7 @@ public class GameMove implements Runnable {
 	}
 	
 	public void move() throws JSONException{
-		
-		if(state.pinfo == true){
+
 			
 			decideMove();
 			int o = state.current1.orient;
@@ -486,9 +485,7 @@ public class GameMove implements Runnable {
 					sendmove(4);
 				}
 			}
-			
-			state.pinfo = false;
-		}
+
 	}
 		
 	@Override
