@@ -459,33 +459,36 @@ public class GameMove implements Runnable {
 	}
 	
 	public void move() throws JSONException{
-
+		
+		if(state.pinfo == true){
 			
 			decideMove();
 			int o = state.current1.orient;
 			int p = state.current1.col;
 
 			
-			if(o < nextrot){
+			while(o < nextrot){
 				sendmove(0);
 				o++;
 			}
-			else if(o > nextrot){
+			while(o > nextrot){
 				sendmove(1);
 				o--;
 			}
-			else{
-				if(p < nextcol){
+
+				while(p < nextcol){
 					sendmove(2);			
 				}
-				else if(p > nextcol){
+				while(p > nextcol){
 					sendmove(3);
 				}
-				else if(p == nextcol && o == nextrot){
+				while(p == nextcol && o == nextrot){
 					sendmove(4);
 				}
-			}
-
+			
+			
+			state.pinfo = false;
+		}
 	}
 		
 	@Override
