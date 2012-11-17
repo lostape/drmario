@@ -235,10 +235,10 @@ public class GameMove implements Runnable {
 	
 	public void move() throws JSONException{
 		
-			if(oldpiece != state.current1.number){
+			//if(oldpiece != state.current1.number){
 				decideMove();
 				oldpiece = state.current1.number;
-			}
+			//}
 			
 			JSONObject m = new JSONObject();
 			m.put("comm_type", "GameMove");
