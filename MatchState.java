@@ -47,6 +47,7 @@ public class MatchState implements Runnable {
 		time = p.getDouble("timestamp");
 		
 		JSONObject states = p.getJSONObject("states");
+		try{
 		JSONObject client1 = states.getJSONObject("Team 139");
 		current1.setOrient(client1.getInt("orient"));
 		current1.setType(client1.getString("piece"));
@@ -58,6 +59,10 @@ public class MatchState implements Runnable {
 		for(int i = 0; i < q.length(); i++){
 			queue[i] = q.getString(i);
 		}
+		}catch(JSONException j){
+			//donothing
+		}
+		
 		
 	}
 	
