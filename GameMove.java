@@ -12,6 +12,7 @@ public class GameMove implements Runnable {
 	int nextcol;
 	int nextrot;
 	boolean findmove = true;
+	int oldpiece = -1;
 	
 	public GameMove(ZMQ.Socket c, String gtkn, String serv, MatchState ms){
 		command = c;
@@ -235,13 +236,16 @@ public class GameMove implements Runnable {
 	public void move() throws JSONException{
 		
 		if(state.pinfo == true){
+			
+			if(oldpiece != state.current1.number){
+				decideMove();
+				oldpiece = state.current1.number;
+			}
+			
 			JSONObject m = new JSONObject();
 			m.put("comm_type", "GameMove");
 			m.put("client_token", client);
-	
-			//if(findmove == true){
-				decideMove();
-			//}
+
 			
 			if(state.current1.orient < nextrot){
 				m.put("move", "lrotate");
