@@ -175,7 +175,7 @@ public class GameMove implements Runnable {
 			case 'J':
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
-						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,0)){
+						if(checkCell(j,1) && checkCell(j+1,1) && checkCell(j+2,0)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
 							return;
