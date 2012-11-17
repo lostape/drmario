@@ -431,40 +431,62 @@ public class GameMove implements Runnable {
 		}
 	}
 	
+	public void sendmove(int type) throws JSONException{
+		JSONObject m = new JSONObject();
+		m.put("comm_type", "GameMove");
+		m.put("client_token", client);
+		
+		switch(type){
+		case 0:
+			m.put("move", "lrotate");
+			break;
+		case 1:
+			m.put("move", "rrotate");
+			break;
+		case 2:
+			m.put("move", "right");
+			break;
+		case 3:
+			m.put("move", "left");
+			break;
+		case 4:
+			m.put("move", "drop");
+			break;
+		}
+		System.out.println(m.toString());
+		command.send(m.toString().getBytes(), 0);
+		command.recv(0);
+	}
+	
 	public void move() throws JSONException{
 		
 		if(state.pinfo == true){
-			JSONObject m = new JSONObject();
-			m.put("comm_type", "GameMove");
-			m.put("client_token", client);
-	
-			if(newpiece()){
-				decideMove();
-				piece = state.current1.number;
-			}
 			
-			if(state.current1.orient < nextrot){
-				m.put("move", "lrotate");
+			decideMove();
+			int o = state.current1.orient;
+			int p = state.current1.col;
+
+			
+			if(o < nextrot){
+				sendmove(0);
+				o++;
 			}
-			else if(state.current1.orient > nextrot){
-				m.put("move", "rrotate");
+			else if(o > nextrot){
+				sendmove(1);
+				o--;
 			}
 			else{
-				if(state.current1.col < nextcol){
-					m.put("move", "right");				
+				if(p < nextcol){
+					sendmove(2);			
 				}
-				else if(state.current1.col > nextcol){
-					m.put("move", "left");
+				else if(p > nextcol){
+					sendmove(3);
 				}
-				else if(state.current1.col == nextcol && state.current1.orient == nextrot){
-					m.put("move", "drop");
-					findmove = true;
+				else if(p == nextcol && o == nextrot){
+					sendmove(4);
 				}
 			}
 			
-			System.out.println(m.toString());
-			command.send(m.toString().getBytes(), 0);
-			command.recv(0);
 			state.pinfo = false;
 		}
 	}
