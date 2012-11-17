@@ -97,6 +97,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 								nextcol = (j+1) % 10;
 								nextrot = 0;
+								return;
 							}
 							
 						}
@@ -115,6 +116,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 								nextcol = ((j+2) % 10);
 								nextrot = 0;
+								return;
 							}
 	
 						}
@@ -127,6 +129,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 								nextcol = (j % 10);
 								nextrot = 1;
+								return;
 							}
 						}
 						else if(checkCell(j+1,0)){
@@ -138,6 +141,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 1;
+							return;
 							}
 						}
 						else if(checkCell(j+2,0)){
@@ -149,6 +153,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+2) % 10);
 							nextrot = 1;
+							return;
 							}
 						}
 						else if(checkCell(j+3,0)){
@@ -160,6 +165,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+3) % 10);
 							nextrot = 1;
+							return;
 							}
 								
 						}
@@ -178,6 +184,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
+							return;
 							}
 							
 						}
@@ -192,6 +199,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
+							return;
 							}
 							
 						}
@@ -210,6 +218,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
+							return;
 							}
 							
 						}
@@ -224,6 +233,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
+							return;
 							}
 							
 						}
@@ -242,6 +252,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
+							return;
 							}
 						
 						}
@@ -254,6 +265,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
+							return;
 							}
 							
 						}
@@ -268,6 +280,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
+							return;
 							}
 							
 						}
@@ -280,6 +293,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 3;
+							return;
 							}
 							
 						}
@@ -298,6 +312,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
+							return;
 							}
 							
 						}
@@ -311,6 +326,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
+							return;
 							}
 							
 						}
@@ -326,6 +342,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 3;
+							return;
 							}
 							
 						}
@@ -338,6 +355,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
+							return;
 							}
 							
 						}
@@ -356,6 +374,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
+							return;
 							}
 							
 						}
@@ -369,6 +388,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
+							return;
 							}
 							
 						}
@@ -384,6 +404,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
+							return;
 							}
 							
 						}
@@ -396,6 +417,7 @@ public class GameMove implements Runnable {
 							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 3;
+							return;
 							}
 							
 						}
