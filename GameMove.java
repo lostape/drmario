@@ -54,6 +54,10 @@ public class GameMove implements Runnable {
 		
 	}
 	
+	public boolean value(int[] f){
+		return true;
+	}
+	
 	public boolean checkCell(int cell, int value){
 		if(state.board[cell] != value){
 			return false;
@@ -70,14 +74,23 @@ public class GameMove implements Runnable {
 		
 		if(state.current1.type != null){
 			findmove = false;
+			int fake[] = state.board;
+			
 			switch(state.current1.type.charAt(0)){
 			case 'O':
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 9); j++){
 						if(checkCell(j, 0) && checkCell(j+1, 0)){
-							nextcol = (j+1) % 10;
-							nextrot = 0;
-							return;
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j-10]=1;
+							fake[j+1-10]=1;
+							if(value(fake)){
+								nextcol = (j+1) % 10;
+								nextrot = 0;
+							}
+							
 						}
 					}
 				}
@@ -86,29 +99,61 @@ public class GameMove implements Runnable {
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 7); j++){
 						if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0) && checkCell(j+3,0)){
-							nextcol = ((j+2) % 10);
-							nextrot = 0;
-							return;
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j+2]=1;
+							fake[j+3]=1;
+							if(value(fake)){
+								nextcol = ((j+2) % 10);
+								nextrot = 0;
+							}
+	
 						}
 						else if(checkCell(j,0)){
-							nextcol = (j % 10);
-							nextrot = 1;
-							return;
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j-20]=1;
+							fake[j-30]=1;
+							if(value(fake)){
+								nextcol = (j % 10);
+								nextrot = 1;
+							}
 						}
 						else if(checkCell(j+1,0)){
+							fake = state.board;
+							fake[j+1] = 1;
+							fake[j+1-10]= 1;
+							fake[j+1-20]=1;
+							fake[j+1-30]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 1;
-							return;
+							}
 						}
 						else if(checkCell(j+2,0)){
+							fake = state.board;
+							fake[j+2] = 1;
+							fake[j+2-10]= 1;
+							fake[j+2-20]=1;
+							fake[j+2-30]=1;
+							if(value(fake)){
 							nextcol = ((j+2) % 10);
 							nextrot = 1;
-							return;
+							}
 						}
 						else if(checkCell(j+3,0)){
+							fake = state.board;
+							fake[j+3] = 1;
+							fake[j+3-10]= 1;
+							fake[j+3-20]=1;
+							fake[j+3-30]=1;
+							if(value(fake)){
 							nextcol = ((j+3) % 10);
 							nextrot = 1;
-							return;
+							}
+								
 						}
 					}
 				}
@@ -117,14 +162,30 @@ public class GameMove implements Runnable {
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
 						if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,1)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j+1-10]=1;
+							fake[j+2-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
-							return;
+							}
+							
 						}
-						else if(checkCell(j,1) && checkCell(j+1,0)){
+					}
+					for(int j = i; j < (i + 9); j++){
+						if(checkCell(j,1) && checkCell(j+1,0)){
+							fake = state.board;
+							fake[j-10] = 1;
+							fake[j-20]= 1;
+							fake[j+1-10]=1;
+							fake[j+1]=1;
+							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
-							return;
+							}
+							
 						}
 					}
 				}
@@ -133,14 +194,30 @@ public class GameMove implements Runnable {
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
 						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,0)){
+							fake = state.board;
+							fake[j+1] = 1;
+							fake[j+1-10]= 1;
+							fake[j+2]=1;
+							fake[j-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
-							return;
+							}
+							
 						}
-						else if(checkCell(j,0) && checkCell(j+1,1)){
+					}
+					for(int j = i; j < (i + 9); j++){
+						if(checkCell(j,0) && checkCell(j+1,1)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j+1-10]=1;
+							fake[j+1-20]=1;
+							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
-							return;
+							}
+							
 						}
 					}
 				}
@@ -149,25 +226,54 @@ public class GameMove implements Runnable {
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
 						if(checkCell(j,0) && checkCell(j+1,1) && checkCell(j+2,1)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j+1-10]=1;
+							fake[j+2-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
-							return;
-						}
-						//does not reach last cell in row
-						else if(checkCell(j,0) && checkCell(j+1,0)){
-							nextcol = ((j) % 10);
-							nextrot = 1;
-							return;
+							}
+						
 						}
 						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j+2]=1;
+							fake[j+2-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
-							return;
+							}
+							
+						}
+					}
+					for(int j = i; j < (i + 9); j++){
+						if(checkCell(j,0) && checkCell(j+1,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j-20]=1;
+							fake[j+1]=1;
+							if(value(fake)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							}
+							
 						}
 						else if(checkCell(j-10,1) && checkCell(j+1,0)){
+							fake = state.board;
+							fake[j+1] = 1;
+							fake[j+1-10]= 1;
+							fake[j+1-20]=1;
+							fake[j-20]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 3;
-							return;
+							}
+							
 						}
 					}
 				}
@@ -175,26 +281,57 @@ public class GameMove implements Runnable {
 			case 'J':
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
-						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,0)){
+						if(checkCell(j,1) && checkCell(j+1,1) && checkCell(j+2,0)){
+							fake = state.board;
+							fake[j-10] = 1;
+							fake[j+1-10]= 1;
+							fake[j+2-10]=1;
+							fake[j+3]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
-							return;
+							}
+							
 						}
-						//does not reach last cell in row
-						else if(checkCell(j,0) && checkCell(j+1,0)){
-							nextcol = ((j+1) % 10);
-							nextrot = 3;
-							return;
-						}
+						
 						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j+1]=1;
+							fake[j+2]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
-							return;
+							}
+							
+						}
+						
+					}
+					for(int j = i; j < (i + 9); j++){
+						if(checkCell(j,0) && checkCell(j+1,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j+1-10]=1;
+							fake[j+1-20]=1;
+							if(value(fake)){
+							nextcol = ((j+1) % 10);
+							nextrot = 3;
+							}
+							
 						}
 						else if(checkCell(j+1-10,1) && checkCell(j,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j-20]=1;
+							fake[j+1-20]=1;
+							if(value(fake)){
 							nextcol = ((j) % 10);
 							nextrot = 1;
-							return;
+							}
+							
 						}
 					}
 				}
@@ -203,24 +340,56 @@ public class GameMove implements Runnable {
 				for(int i = 190; i >= 0; i -= 10){
 					for(int j = i; j < (i + 8); j++){
 						if(checkCell(j,1) && checkCell(j+1,0) && checkCell(j+2,1)){
+							fake = state.board;
+							fake[j-10] = 1;
+							fake[j+1-10]= 1;
+							fake[j+1]=1;
+							fake[j+2-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 0;
-							return;
+							}
+							
 						}
-						else if(checkCell(j,0) && checkCell(j,1)){
-							nextcol = ((j) % 10);
-							nextrot = 1;
-							return;
-						}
+						
 						else if(checkCell(j,0) && checkCell(j+1,0) && checkCell(j+2,0)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j+1]= 1;
+							fake[j+2]=1;
+							fake[j+1-10]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 2;
-							return;
+							}
+							
+						}
+						
+					}
+					for(int j = i; j < (i + 8); j++){
+						if(checkCell(j,0) && checkCell(j,1)){
+							fake = state.board;
+							fake[j] = 1;
+							fake[j-10]= 1;
+							fake[j-20]=1;
+							fake[j+1-10]=1;
+							if(value(fake)){
+							nextcol = ((j) % 10);
+							nextrot = 1;
+							}
+							
 						}
 						else if(checkCell(j,1) && checkCell(j,0)){
+							fake = state.board;
+							fake[j-10] = 1;
+							fake[j+1-10]= 1;
+							fake[j+1-20]=1;
+							fake[j+1]=1;
+							if(value(fake)){
 							nextcol = ((j+1) % 10);
 							nextrot = 3;
-							return;
+							}
+							
 						}
 					}
 				}
