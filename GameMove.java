@@ -262,7 +262,7 @@ public class GameMove implements Runnable {
 				}
 			}
 			
-			//System.out.println(m.toString());
+			System.out.println(m.toString());
 			command.send(m.toString().getBytes(), 0);
 			command.recv(0);
 			state.pinfo = false;
