@@ -477,10 +477,12 @@ public class GameMove implements Runnable {
 			}
 
 				while(p < nextcol){
-					sendmove(2);			
+					sendmove(2);	
+					p++;
 				}
 				while(p > nextcol){
 					sendmove(3);
+					p--;
 				}
 				while(p == nextcol && o == nextrot){
 					sendmove(4);
