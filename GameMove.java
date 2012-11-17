@@ -235,8 +235,6 @@ public class GameMove implements Runnable {
 	
 	public void move() throws JSONException{
 		
-		if(state.pinfo == true){
-			
 			if(oldpiece != state.current1.number){
 				decideMove();
 				oldpiece = state.current1.number;
@@ -270,7 +268,7 @@ public class GameMove implements Runnable {
 			command.send(m.toString().getBytes(), 0);
 			command.recv(0);
 			state.pinfo = false;
-		}
+		
 	}
 		
 	@Override
